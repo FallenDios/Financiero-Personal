@@ -20,33 +20,33 @@ let transactions=[];
 //====================================
 // EVENTO: Se agrega una nueva transacción
 //====================================
-form.addEventListener("submit",function(event){
-    event.preventDefault();
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-    const description=descriptionInput.value;
-    const amount=parseFloat(amountInput.value);
-    const category=categorySelect.value;
-    const type=typeSelect.value;
+  const description = descriptionInput.value;
+  const amount = parseFloat(amountInput.value);
+  const category = categorySelect.value;
+  const type = typeSelect.value;
 
     // Validación básica
-    if(description ==="" || isNaN(amount) || !category || !type){
-        alert("Por favor, completa todos los campos.");
-        return;
-    }
+   if (description === "" || isNaN(amount) || !category || !type) {
+    alert("Por favor, completa todos los campos.");
+    return;
+  }
 
     // Crear un objeto de transacción
-    const transaction={
-        id: Date.now(), // ID unico 
-        description,
-        amount: type ==="income" ? amount : -amount, // Si es ingreso es positivo, si es gasto es negativo
-        category,
-        type
-    };
+    const transaction = {
+    id: Date.now(), // ID unico
+    description,
+    amount: type === "ingreso" ? amount : -amount,
+    category,
+    type,
+  };
 
     //Guardar y mostrar 
     transactions.push(transaction);
-    addtransactionToDOM(transaction);
-    updateTotalBalance();
+  addtransactionToDOM(transaction);
+  updateBalance();
 
     // Limpiar el formulario
     form.reset();
@@ -73,15 +73,17 @@ function addtransactionToDOM(transaction){
 
 
 // Actualizar el balance total
-function updateTotalBalance(){
-    let total=0;
-    transactions.forEach((t) => {
-        if(t.type ==="ingreso"){
-            total += t.amount;
-        } else {
-            total -= t.amount;
-        }
-    });
+function updateBalance() {
+  let total = 0;
 
-    totalBalance.textContent=`$${total.toFixed(2)}`;
+  transactions.forEach((t) => {
+    if (t.type.toLowerCase() === "ingreso") {
+      total += t.amount;
+    } else if (t.type.toLowerCase() === "gasto") {
+      total -= t.amount;
+    }
+  });
+
+  totalBalance.textContent = `$${total.toFixed(2)}`;
 }
+
