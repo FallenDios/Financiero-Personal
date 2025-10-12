@@ -38,7 +38,7 @@ form.addEventListener("submit", function (event) {
     const transaction = {
     id: Date.now(), // ID unico
     description,
-    amount: type === "ingreso" ? amount : -amount,
+    amount,
     category,
     type,
   };
@@ -61,14 +61,18 @@ form.addEventListener("submit", function (event) {
 
 // Mostrar transacción en la lista
 
-function addtransactionToDOM(transaction){
-    const li=document.createElement("li");
-    li.classList.add(transaction.type === "ingreso" ? "income" : "expense");
-    li.innerHTML=`
-      <span>${transaction.description} - <small>${transaction.category}</small></span>
-      <strong>${transaction.type === "gasto" ? "-" : "+"}$${transaction.amount.toFixed(2)}</strong>
-    `;
-    transactionList.appendChild(li);
+function addtransactionToDOM(transaction) {
+  const li = document.createElement("li");
+  li.classList.add(transaction.type === "ingreso" ? "income" : "expense");
+
+  const sign = transaction.type === "gasto" ? "-" : "+";
+
+  li.innerHTML = `
+    <span>${transaction.description} - <small>${transaction.category}</small></span>
+    <strong>${sign}$${transaction.amount.toFixed(2)}</strong>
+  `;
+
+  transactionList.appendChild(li);
 }
 
 
@@ -86,4 +90,15 @@ function updateBalance() {
 
   totalBalance.textContent = `$${total.toFixed(2)}`;
 }
+
+//Color segun balance
+// Cambia color según el balance
+if (total > 0) {
+  totalBalance.style.color = "#4caf50"; // verde
+} else if (total < 0) {
+  totalBalance.style.color = "#f44336"; // rojo
+} else {
+  totalBalance.style.color = "#333"; // neutro
+}
+
 
