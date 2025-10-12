@@ -53,3 +53,35 @@ form.addEventListener("submit",function(event){
 });
 
 
+
+//====================================
+//         FUNCIONES
+//====================================
+
+
+// Mostrar transacción en la lista
+
+function addtransactionToDOM(transaction){
+    const li=document.createElement("li");
+    li.classList.add(transaction.type === "ingreso" ? "income" : "expense");
+    li.innerHTML=`
+      <span>${transaction.description} - <small>${transaction.category}</small></span>
+      <strong>${transaction.type === "gasto" ? "-" : "+"}$${transaction.amount.toFixed(2)}</strong>
+    `;
+    transactionList.appendChild(li);
+}
+
+
+// Actualizar el balance total
+function updateTotalBalance(){
+    let total=0;
+    transactions.forEach((t) => {
+        if(t.type ==="ingreso"){
+            total += t.amount;
+        } else {
+            total -= t.amount;
+        }
+    });
+
+    totalBalance.textContent=`$${total.toFixed(2)}`;
+}
