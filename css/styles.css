@@ -1,0 +1,178 @@
+/*=============================================
+  =            Estilos Bases                  =
+  ============================================*/
+
+/* Tipografía */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: #f7f9fb;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px;
+}
+
+/* Contenedor Principal */
+.container {
+    background-color: #fff;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+
+/* Encabezado*/
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    color: #6b7cff;
+    margin-bottom: 10px;
+}
+
+
+.balance-box {
+    background: linear-gradient(135deg, #a8c6ff, #b5e5cf);
+    color: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.balance-box h2 {
+    font-size: 1.1rem;
+}
+
+.balance-box p {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Seccion del formulario */
+
+.form-section {
+    margin-top: 25px;
+    background-color: #fdfdff;
+    border: 2px solid #eef2ff;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+
+.form-section h3 {
+    color: #555;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+
+input:focus,
+select:focus {
+    border-color: #a8c6ff;
+    outline: none;
+}
+
+
+button {
+    background-color: #a8c6ff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+button:hover {
+    background-color: #8fb0ff;
+}
+
+
+/* Seccion de movimientos */
+
+.transactions-section h3 {
+    margin-bottom: 10px;
+    color: #555;
+    font-weight: 700;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+li {
+    background-color: #f9faff;
+    border-left: 6px solid #b5e5cf;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+li.income{
+    border-left-color: #b5e5cf; /* Verder pastel*/
+
+}
+
+li.expense{
+    border-left-color: #ffd6e8; /* Rosa pastel*/
+}
+
+li:hover{
+    transform: scale(1.01);
+}
+
+/*responsive*/
+@media (max-width: 480px) {
+    .container{
+        padding: 20px;
+    }
+
+    header h1{
+        font-size: 1.5rem;
+    }
+
+    .balance-box p{
+        font-size: 1.4rem;
+    }
+}
