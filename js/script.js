@@ -111,6 +111,18 @@ if (total > 0) {
 
 
 
+// Eliminar una transacción
+function deleteTransaction(id) {
+
+    //Filtramos el array para quitar la transaccion con ese ID
+    transactions = transactions.filter((t) => t.id !== id);
+
+    //Guardamos y actualizamos todo 
+    saveTransactions();
+    renderTransactions();
+}
+
+
 
 //====================================
 //         LOCAL STORAGE
