@@ -1,66 +1,60 @@
 //====================================
-//  PROYECTO: Financiero Personal
+//  PROYECTO: FinanZone (Gestor Financiero)
 //====================================
 
-// Referencia a los elementos del DOM
+// Referencias al DOM
+const form = document.getElementById("transaction-form");
+const descriptionInput = document.getElementById("description");
+const amountInput = document.getElementById("amount");
+const categorySelect = document.getElementById("category");
+const typeSelect = document.getElementById("type");
+const transactionList = document.getElementById("transaction-list");
+const totalBalance = document.getElementById("total-balance");
 
-const form=document.getElementById("transaction-form");
-const descriptionInput=document.getElementById("description");
-const amountInput=document.getElementById("amount");
-const categorySelect=document.getElementById("category");
-const typeSelect=document.getElementById("type");
-const transactionList=document.getElementById("transaction-list");
-const totalBalance=document.getElementById("total-balance");
-
-
-// Array para almacenar las transacciones
-let transactions=[];
-
+// Array de transacciones
+let transactions = [];
 
 //====================================
-// EVENTO: Se agrega una nueva transacción
+// EVENTO: Agregar nueva transacción
 //====================================
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const description = descriptionInput.value;
+  const description = descriptionInput.value.trim();
   const amount = parseFloat(amountInput.value);
   const category = categorySelect.value;
   const type = typeSelect.value;
 
-    // Validación básica
-   if (description === "" || isNaN(amount) || !category || !type) {
+  // Validaciones
+  if (description === "" || isNaN(amount) || !category || !type) {
     alert("Por favor, completa todos los campos.");
     return;
   }
 
-    // Crear un objeto de transacción
-    const transaction = {
-    id: Date.now(), // ID unico
+  // Crear objeto transacción
+  const transaction = {
+    id: Date.now(),
     description,
     amount,
     category,
     type,
   };
 
-    //Guardar y mostrar 
-    transactions.push(transaction);
+  // Guardar y mostrar
+  transactions.push(transaction);
   addtransactionToDOM(transaction);
   updateBalance();
+  saveTransactions(); // ✅ Guardamos en localStorage
 
-    // Limpiar el formulario
-    form.reset();
+  // Limpiar el formulario
+  form.reset();
 });
 
-
-
 //====================================
-//         FUNCIONES
+// FUNCIONES
 //====================================
 
-
-// Mostrar transacción en la lista
-
+// Mostrar transacción en el DOM
 function addtransactionToDOM(transaction) {
   const li = document.createElement("li");
   li.classList.add(transaction.type === "ingreso" ? "income" : "expense");
@@ -70,21 +64,18 @@ function addtransactionToDOM(transaction) {
   li.innerHTML = `
     <span>${transaction.description} - <small>${transaction.category}</small></span>
     <strong>${sign}$${transaction.amount.toFixed(2)}</strong>
-    <button class="deletebtn">X</button>
+    <button class="delete-btn">✖</button>
   `;
 
-
-  // Evento para eliminar la transacción
-    li.querySelector(".deletebtn").addEventListener("click",() => {
-        deleteTransaction(transaction.id);
-    });
-
+  // Evento para eliminar transacción
+  li.querySelector(".delete-btn").addEventListener("click", () => {
+    deleteTransaction(transaction.id);
+  });
 
   transactionList.appendChild(li);
 }
 
-
-// Actualizar el balance total
+// Actualizar balance total
 function updateBalance() {
   let total = 0;
 
@@ -97,51 +88,44 @@ function updateBalance() {
   });
 
   totalBalance.textContent = `$${total.toFixed(2)}`;
+
+  // Cambiar color según balance
+  if (total > 0) {
+    totalBalance.style.color = "#4caf50"; // verde
+  } else if (total < 0) {
+    totalBalance.style.color = "#f44336"; // rojo
+  } else {
+    totalBalance.style.color = "#333"; // neutro
+  }
 }
 
-//Color segun balance
-// Cambia color según el balance
-if (total > 0) {
-  totalBalance.style.color = "#4caf50"; // verde
-} else if (total < 0) {
-  totalBalance.style.color = "#f44336"; // rojo
-} else {
-  totalBalance.style.color = "#333"; // neutro
-}
-
-
-
-// Eliminar una transacción
+// Eliminar transacción
 function deleteTransaction(id) {
-
-    //Filtramos el array para quitar la transaccion con ese ID
-    transactions = transactions.filter((t) => t.id !== id);
-
-    //Guardamos y actualizamos todo 
-    saveTransactions();
-    renderTransactions();
+  transactions = transactions.filter((t) => t.id !== id);
+  saveTransactions();
+  renderTransactions();
 }
 
+// Renderizar todas las transacciones
+function renderTransactions() {
+  transactionList.innerHTML = "";
+  transactions.forEach((t) => addtransactionToDOM(t));
+  updateBalance();
+}
 
-
-//====================================
-//         LOCAL STORAGE
-//====================================
-
-// Guardar transacciones 
-
+// Guardar en localStorage
 function saveTransactions() {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
+  localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// Cargar las transacciones al iniciar
+// Cargar transacciones guardadas
 function loadTransactions() {
-    const saved = JSON.parse(localStorage.getItem("transactions"));
-    if (saved) {
-        transactions = saved;
-        transactions.forEach((t) => addtransactionToDOM(t));
-        updateBalance();
-    }
+  const saved = JSON.parse(localStorage.getItem("transactions"));
+  if (saved) {
+    transactions = saved;
+    renderTransactions();
+  }
 }
 
+// Ejecutar al iniciar
 loadTransactions();

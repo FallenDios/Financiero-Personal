@@ -176,3 +176,18 @@ li:hover{
         font-size: 1.4rem;
     }
 }
+
+/*Estilo para boton eliminar*/
+.delete-btn{
+    background-color: transparent;
+    border: none;
+    color: #f76b6b;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-btn:hover{
+    transform: scale(1.1);
+    color: #e04141;
+}
