@@ -191,3 +191,27 @@ li:hover{
     transform: scale(1.1);
     color: #e04141;
 }
+
+
+/*=============================================
+  =            Estilos de la gráfica         =
+  ============================================*/
+
+.chart-section {
+    margin-top: 25px;
+    background-color: #fdfdff;
+    border: 2px solid #eef2ff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.chart-section h3 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+canvas{
+    max-width: 100%;
+    height: auto;
+}
