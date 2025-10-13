@@ -46,6 +46,7 @@ form.addEventListener("submit", function (event) {
     updateBalance();
     saveTransactions(); //  Guardamos en localStorage
     updateExpenseChart(); //  actualiza el gráfico al agregar una transacción
+    updateMonthlyChart(); //  actualiza el gráfico mensual
 
 
     // Limpiar el formulario
@@ -107,6 +108,7 @@ function deleteTransaction(id) {
     saveTransactions();
     renderTransactions();
     updateExpenseChart(); // Actualizar gráfica al eliminar
+    updateMonthlyChart(); // Actualizar gráfica mensual al eliminar
 }
 
 // Renderizar todas las transacciones
@@ -129,10 +131,13 @@ function loadTransactions() {
         renderTransactions();
     }
     updateExpenseChart(); // Actualizar gráfica al cargar
+    updateMonthlyChart(); // Actualizar gráfica mensual al cargar
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   loadTransactions();
+  updateExpenseChart();
+  updateMonthlyChart();
 });
 
 
@@ -196,4 +201,79 @@ function updateExpenseChart() {
       },
     },
   });
+}
+
+
+
+//============================================
+// GRÁFICA DE INGRESOS VS GASTOS MENSUAL
+//============================================
+
+let monthlyChart;
+
+function updateMonthlyChart() {
+    // Crear un mapa por mes
+    const months =[
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    
+    // Inicializamos los tatales
+    const incomeByMonth = Array(12).fill(0);
+    const expenseByMonth = Array(12).fill(0);
+
+    //Recorremos las transacciones
+    transactions.forEach(t => {
+        const date = new Date(t.id); // Usamos el ID como timestamp
+        const monthIndex = date.getMonth();
+
+        if (t.type === 'ingreso') {
+            incomeByMonth[monthIndex] += t.amount;
+        } else if (t.type === 'gasto') {
+            expenseByMonth[monthIndex] += t.amount;
+        }
+    });
+
+    // Si ya existe, destruir antes de crear
+    if (monthlyChart) {
+        monthlyChart.destroy();
+    }
+    const ctx = document.getElementById('monthlyChart').getContext('2d');
+
+    monthlyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Ingresos',
+                    data: incomeByMonth,
+                    backgroundColor: "rgba(100,200,150,0.7)",
+                },
+                {
+                    label: 'Gastos',
+                    data: expenseByMonth,
+                    backgroundColor: 'rgba(255,150,150,0.7)',
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: "#555"  },
+                },
+                x: { ticks: { color: "#555" }  },
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: "#555",
+                        font: { size: 14 },
+                    },
+                },
+            },
+        },
+    });
 }
