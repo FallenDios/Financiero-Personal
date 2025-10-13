@@ -215,3 +215,13 @@ canvas{
     max-width: 100%;
     height: auto;
 }
+
+/*=============================================
+  =       Estilos de la gráfica barras        =
+  ============================================*/
+
+  #monthlyChart {
+    margin-top: 10px;
+    max-width: 100%;
+    height: 300px;
+  }
