@@ -70,7 +70,15 @@ function addtransactionToDOM(transaction) {
   li.innerHTML = `
     <span>${transaction.description} - <small>${transaction.category}</small></span>
     <strong>${sign}$${transaction.amount.toFixed(2)}</strong>
+    <button class="deletebtn">X</button>
   `;
+
+
+  // Evento para eliminar la transacción
+    li.querySelector(".deletebtn").addEventListener("click",() => {
+        deleteTransaction(transaction.id);
+    });
+
 
   transactionList.appendChild(li);
 }
