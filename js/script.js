@@ -102,3 +102,26 @@ if (total > 0) {
 }
 
 
+
+
+//====================================
+//         LOCAL STORAGE
+//====================================
+
+// Guardar transacciones 
+
+function saveTransactions() {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+// Cargar las transacciones al iniciar
+function loadTransactions() {
+    const saved = JSON.parse(localStorage.getItem("transactions"));
+    if (saved) {
+        transactions = saved;
+        transactions.forEach((t) => addtransactionToDOM(t));
+        updateBalance();
+    }
+}
+
+loadTransactions();
