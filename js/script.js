@@ -277,3 +277,80 @@ function updateMonthlyChart() {
         },
     });
 }
+
+
+// ==================================
+// FILTROS POR MES Y CATEGORÍA
+// ==================================
+const filterMonth = document.getElementById("filter-month");
+const filterCategory = document.getElementById("filter-category");
+
+filterMonth.addEventListener("change", applyFilters);
+filterCategory.addEventListener("change", applyFilters);
+
+function applyFilters() {
+  const monthFilter = filterMonth.value;
+  const categoryFilter = filterCategory.value;
+
+  // Filtrar transacciones según mes y categoría
+  let filtered = transactions.filter((t) => {
+    const date = new Date(t.id);
+    const month = date.getMonth();
+
+    const matchMonth = monthFilter === "all" || parseInt(monthFilter) === month;
+    const matchCategory = categoryFilter === "all" || t.category === categoryFilter;
+
+    return matchMonth && matchCategory;
+  });
+
+  // Renderizar solo las filtradas
+  renderFilteredTransactions(filtered);
+  updateFilteredCharts(filtered);
+}
+
+// Mostrar solo las transacciones filtradas
+function renderFilteredTransactions(filtered) {
+  transactionList.innerHTML = "";
+  filtered.forEach((t) => addtransactionToDOM(t));
+
+  // Actualizar balance de las filtradas
+  let total = 0;
+  filtered.forEach((t) => {
+    if (t.type === "ingreso") total += t.amount;
+    else total -= t.amount;
+  });
+  totalBalance.textContent = `$${total.toFixed(2)}`;
+}
+
+// Actualizar gráficos con los datos filtrados
+function updateFilteredCharts(filtered) {
+  // Gráfico circular
+  const expenseTransactions = filtered.filter(t => t.type === "gasto");
+  const categoryTotals = {};
+  expenseTransactions.forEach(t => {
+    categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
+  });
+
+  const categories = Object.keys(categoryTotals);
+  const values = Object.values(categoryTotals);
+
+  if (expenseChart) expenseChart.destroy();
+
+  const ctx1 = document.getElementById('expenseChart').getContext('2d');
+  expenseChart = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: categories,
+      datasets: [{
+        data: values,
+        backgroundColor: ["#ffd6e8","#a8c6ff","#b5e5cf","#ffedb3","#e2c6ff","#ffc6c6"],
+        borderColor: "#fff",
+        borderWidth: 2,
+      }]
+    },
+    options: { plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // Gráfico mensual filtrado (reutiliza la misma función pero con filtro)
+  updateMonthlyChart();
+}
