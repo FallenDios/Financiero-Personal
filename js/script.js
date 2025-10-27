@@ -66,7 +66,7 @@ function addtransactionToDOM(transaction) {
 
     li.innerHTML = `
     <span>${transaction.description} - <small>${transaction.category}</small></span>
-    <strong>${sign}$${transaction.amount.toFixed(2)}</strong>
+    <strong>${sign}${formatCurrency(transaction.amount)}</strong>
     <button class="delete-btn">✖</button>
   `;
 
@@ -90,7 +90,8 @@ function updateBalance() {
         }
     });
 
-    totalBalance.textContent = `$${total.toFixed(2)}`;
+    totalBalance.textContent = formatCurrency(total);
+
 
     // Cambiar color según balance
     if (total > 0) {
@@ -353,4 +354,17 @@ function updateFilteredCharts(filtered) {
 
   // Gráfico mensual filtrado (reutiliza la misma función pero con filtro)
   updateMonthlyChart();
+}
+
+
+//====================================
+// FUNCION DE FORMATO NUMERICO
+//====================================
+
+function formatCurrency(num) {
+  return amont.tolocalString("es-AR",{
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2
+  });
 }
