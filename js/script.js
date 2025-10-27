@@ -320,7 +320,8 @@ function renderFilteredTransactions(filtered) {
     if (t.type === "ingreso") total += t.amount;
     else total -= t.amount;
   });
-  totalBalance.textContent = `$${total.toFixed(2)}`;
+  totalBalance.textContent = formatCurrency(total);
+
 }
 
 // Actualizar gráficos con los datos filtrados
@@ -362,7 +363,7 @@ function updateFilteredCharts(filtered) {
 //====================================
 
 function formatCurrency(num) {
-  return amont.tolocalString("es-AR",{
+  return num.toLocalString("es-AR",{
     style: "currency",
     currency: "ARS",
     minimumFractionDigits: 2
