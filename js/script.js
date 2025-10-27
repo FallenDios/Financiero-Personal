@@ -95,12 +95,13 @@ function updateBalance() {
 
     // Cambiar color según balance
     if (total > 0) {
-        totalBalance.style.color = "#4caf50"; // verde
-    } else if (total < 0) {
-        totalBalance.style.color = "#f44336"; // rojo
-    } else {
-        totalBalance.style.color = "#333"; // neutro
-    }
+  totalBalance.style.color = document.body.classList.contains("dark-mode") ? "#6bfb88ff" : "#4caf50";
+} else if (total < 0) {
+  totalBalance.style.color = document.body.classList.contains("dark-mode") ? "#ff8e8e" : "#f44336";
+} else {
+  totalBalance.style.color = document.body.classList.contains("dark-mode") ? "#ccc" : "#333";
+}
+
 }
 
 // Eliminar transacción
@@ -369,3 +370,33 @@ function formatCurrency(num) {
     minimumFractionDigits: 2
   });
 }
+
+
+
+// ============================
+// MODO OSCURO / CLARO
+// ============================
+const themeSwitch = document.getElementById("theme-switch");
+const modeIcon = document.querySelector(".mode-icon");
+
+// Cargar tema guardado
+const currentTheme = localStorage.getItem("theme");
+
+if (currentTheme === "dark") {
+  document.body.classList.add("dark-mode");
+  themeSwitch.checked = true;
+  modeIcon.textContent = "☀️";
+}
+
+// Escuchar cambios
+themeSwitch.addEventListener("change", () => {
+  if (themeSwitch.checked) {
+    document.body.classList.add("dark-mode");
+    modeIcon.textContent = "☀️";
+    localStorage.setItem("theme", "dark");
+  } else {
+    document.body.classList.remove("dark-mode");
+    modeIcon.textContent = "🌙";
+    localStorage.setItem("theme", "light");
+  }
+});

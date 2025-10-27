@@ -259,3 +259,122 @@ canvas{
     border-color: #a8c6ff;
     outline: none;
 }
+
+
+
+/* ============================
+   SWITCH DE MODO OSCURO
+============================ */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  padding: 6px 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  margin-right: 6px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #9ca3f8;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.mode-icon {
+  font-size: 1.2rem;
+}
+
+/* ============================
+   MODO OSCURO PASTEL
+============================ */
+body.dark-mode {
+  background-color: #1f1d2b;
+  color: #f2f2f2;
+}
+
+body.dark-mode .container {
+  background-color: #27293d;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+
+body.dark-mode h1 {
+  color: #b9b5ff;
+}
+
+body.dark-mode .balance-box {
+  background: linear-gradient(90deg, #5b63d6, #8b9aff);
+  color: #e9e9ff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode #total-balance {
+  color: #8ef5a1; /* verde pastel más suave y visible */
+  font-weight: 600;
+}
+
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode button {
+  background-color: #33334d;
+  color: #f2f2f2;
+  border: 1px solid #5c5c8a;
+}
+
+body.dark-mode .income {
+  background-color: rgba(180,255,200,0.15);
+}
+
+body.dark-mode .expense {
+  background-color: rgba(255,200,200,0.15);
+}
+
+body.dark-mode .theme-toggle {
+  background: rgba(39,41,61,0.6);
+}
