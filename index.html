@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,23 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
     <div class="theme-toggle">
-    <label class="switch">
-      <input type="checkbox" id="theme-switch" />
-      <span class="slider"></span>
-    </label>
-    <span class="mode-icon">🌙</span>
-  </div>
+        <label class="switch">
+            <input type="checkbox" id="theme-switch" />
+            <span class="slider"></span>
+        </label>
+        <span class="mode-icon">🌙</span>
+    </div>
 
     <div class="container">
 
-        <!-- HEADER --> 
+        <!-- HEADER -->
 
         <header>
-            <h1>FinanZone</h1>   <!--Cambiar el nombre del gestor de finanzas-->
+            <h1>FinanZone</h1> <!--Cambiar el nombre del gestor de finanzas-->
             <div class="balance-box">
                 <h2>Balance Total</h2>
                 <p id="total-balance">$0</p>
@@ -65,8 +67,15 @@
             <ul id="transaction-list"></ul>
         </section>
 
+
+        <!-- BOTÓN DE ENVÍO -->
+        <section class="share-section">
+            <button id="share-whatsapp">📤 Enviar resumen por WhatsApp</button>
+        </section>
+
+
         <!-- FILTROS DE TRANSACTIONS -->
-         <section class="filter-section">
+        <section class="filter-section">
             <h3>Filtros</h3>
             <select id="filter-month">
                 <option value="all">Todos los meses</option>
@@ -94,10 +103,10 @@
                 <option value="hogar">Hogar</option>
                 <option value="otros">Otros</option>
             </select>
-         </section>
+        </section>
 
         <!-- GRÁFICA -->
-         <section class="chart-section">
+        <section class="chart-section">
             <h3>Distribución de Gastos</h3>
             <canvas id="expenseChart"></canvas>
         </section>
@@ -111,6 +120,7 @@
     </div>
 
     <script src="js/script.js"></script>
-    
+
 </body>
+
 </html>

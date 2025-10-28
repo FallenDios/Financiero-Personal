@@ -400,3 +400,36 @@ themeSwitch.addEventListener("change", () => {
     localStorage.setItem("theme", "light");
   }
 });
+
+
+// ============================
+// ENVÍO DE RESUMEN POR WHATSAPP
+// ============================
+
+document.getElementById("share-whatsapp").addEventListener("click", () => {
+  if (transactions.length === 0) {
+    alert("No hay movimientos registrados para enviar.");
+    return;
+  }
+
+  // Calcular balance total
+  let total = 0;
+  transactions.forEach((t) => {
+    total += t.type === "ingreso" ? t.amount : -t.amount;
+  });
+
+  // Crear resumen de movimientos
+  let message = "💸 *Resumen de FinanZone* 💸%0A%0A";
+  message += `*Balance total:* ${formatCurrency(total)}%0A%0A`;
+
+  transactions.slice(-5).forEach((t) => {
+    const sign = t.type === "ingreso" ? "➕" : "➖";
+    message += `${sign} ${t.description} (${t.category}) – ${formatCurrency(t.amount)}%0A`;
+  });
+
+  message += "%0A📊 FinanZone App – Gestor de Finanzas";
+
+  // Enlace de WhatsApp
+  const whatsappURL = `https://wa.me/?text=${message}`;
+  window.open(whatsappURL, "_blank");
+});
